@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat Hack</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="css/main.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="layout">
+      <header class="toolbar">
+        <h1>Chat Hack</h1>
+      </header>
+      <div class="chat-content">
+        <ul class="chat-timeline"></ul>
+        <div class="bot-typing hide">
+          ChatHackBot is typing...
+        </div>
+      </div>
+      <div class="message-input">
+        <form action="/send" method="post" class="message-form">
+          <input type="text" name="message" class="input-message" placeholder="" required autocomplete="off">
+          <button type="submit">
+            <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+    <script src="js/main.js"></script>
+  </body>
+</html>

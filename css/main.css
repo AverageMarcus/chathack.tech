@@ -1,0 +1,218 @@
+html {
+    background: #eeeeee
+}
+
+html,body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent
+}
+
+button:-moz-focus-inner {
+    border: 0;
+    padding: 0
+}
+
+button {
+    cursor: pointer
+}
+
+.layout {
+    display: flex;
+    height: 100%;
+    flex-flow: column
+}
+
+.chat-content {
+    flex: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch
+}
+
+.toolbar {
+    position: relative;
+    z-index: 1;
+    background: #f7df1e;
+    display: flex;
+    align-items: center;
+    height: 56px;
+    box-shadow: 0 0px 11px rgba(0,0,0,0.4)
+}
+
+.toolbar h1 {
+    font-size: 1.4rem;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    margin-left: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.toolbar .logout {
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    background: none;
+    padding: 10px 0;
+    margin: 0 16px 0 auto;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: none
+}
+
+.message-input {
+    position: relative
+}
+
+.message-input.active .keyboard {
+    display: flex
+}
+
+.message-input.exiting .keyboard {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0
+}
+
+.message-form {
+    background: #fff;
+    border-top: 1px solid #c1c1c1;
+    display: flex
+}
+
+.message-form input {
+    flex: 1;
+    background: #fff;
+    font-size: 1rem;
+    padding: 13px;
+    border: none;
+    margin: 0;
+    cursor: text
+}
+
+.message-form input:focus {
+    outline: none
+}
+
+.message-form button {
+    fill: #adadad;
+    border: none;
+    background: none;
+    padding: 0 6px 0 0;
+    margin: 0 0 0 auto;
+    width: 34px;
+    box-sizing: content-box
+}
+
+.message-form:valid button {
+  fill: #000;
+}
+
+.message-form button:focus {
+    outline: none;
+    fill: #000
+}
+
+.message-form button svg {
+    width: 100%;
+    height: 100%
+}
+
+.chat-timeline {
+    margin: 0;
+    padding: 0 5px;
+}
+
+.chat-item {
+    display: flex;
+    margin: 9px 8px
+}
+
+.chat-item p {
+    margin: 0;
+    word-wrap: break-word;
+    font-size: 24px
+}
+
+.chat-item .bubble {
+    padding: 7px 10px;
+    color: #333;
+    background: #fff;
+    box-shadow: 0 3px 2px rgba(0,0,0,0.1);
+    position: relative;
+    max-width: 80%;
+    min-width: 80px
+}
+
+.chat-item .bubble::before {
+    content: '';
+    border-style: solid;
+    border-width: 0 10px 10px 0;
+    border-color: transparent #fff transparent transparent;
+    position: absolute;
+    top: 0;
+    left: -10px
+}
+
+.chat-item .bubble .meta {
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 3px
+}
+
+.chat-item.from-me {
+    justify-content: flex-end
+}
+
+.chat-item .bubble::after {
+  content: 'From ChatHackBot';
+  font-size: 0.65em;
+  float: right;
+  font-style: italic;
+}
+
+.chat-item.from-me .bubble::after {
+  content: 'From you';
+  font-size: 0.65em;
+  float: right;
+  font-style: italic;
+}
+
+.chat-item.from-me .bubble {
+    background: #F9D7FF
+}
+
+.chat-item.from-me .bubble::before {
+    left: 100%;
+    border-width: 10px 10px 0 0;
+    border-color: #F9D7FF transparent transparent transparent;
+}
+
+.chat-item .state {
+    display: none
+}
+
+.chat-item.sending .state {
+    display: block
+}
+
+.chat-item.sending time {
+    display: none
+}
+
+.bot-typing {
+    margin: 0 12px;
+    font-size: 0.7em;
+    font-style: italic;
+}
+
+.hide {
+    display: none;
+}
