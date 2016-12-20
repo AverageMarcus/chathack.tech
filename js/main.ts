@@ -1,9 +1,10 @@
 const config: any = {
   date: 'Saturday 1st April',
-  url: 'https://www.meetup.com/JSOxford/',
+  url: `<a href="https://www.meetup.com/JSOxford/">https://www.meetup.com/JSOxford/</a>`,
   startTime: '9:30am',
   endTime: '5pm',
   location: 'The Story Museum in Oxford',
+  googleMaps: 'https://goo.gl/maps/vjVy6N4rapt',
   fullAddress: 'The Story Museum, Rochester House, 42 Pembroke St, Oxford OX1 1BP',
   key: '1a6e39d4e6e846d1a8ad4b98ec332946',
   appId: '57195fd5-cae5-4810-a829-b42ff5d3f3db'
@@ -30,9 +31,12 @@ class ChatBot {
   private isScrolled: boolean = false;
 
   private botIsTyping: Element = document.querySelector('.bot-typing');
+  private botTyping: Function = () => setTimeout(() => { this.botIsTyping.classList.remove('hide'); }, 450);
+  private botNotTyping: Function = () => this.botIsTyping.classList.add('hide')
 
   private getUserMessage: Function = (): string => this.inputBox.value;
   private resetUserMessage: Function = (): void => {this.inputBox.value = '';}
+
 
   constructor() {
     this.hookUpEventHandler();
@@ -82,38 +86,51 @@ class ChatBot {
   }
 
   private say() {
-    this.botIsTyping.classList.add('hide');
+    this.botNotTyping();
     let message = this.messages.shift();
     if (message) {
       this.addChatItem(message, true);
       setTimeout(() => this.say(), 3500);
       if(this.messages.length) {
-        setTimeout(() => {
-          this.botIsTyping.classList.remove('hide');
-        }, 450);
+        this.botTyping();
       }
     }
   }
 
   private respondTo(message) {
+    this.botTyping();
     let url = this.apiURL(message);
     fetch(url)
       .then(res => res.json())
       .then(res => {
+        let message: string;
         switch(res.topScoringIntent.intent) {
           case 'Greeting':
-            return this.addChatItem(`Hello.`, true);
+            message = `Hello.`;
+            break;
           case 'Location':
-            return this.addChatItem(`${config.fullAddress}`, true);
+            message = `${config.fullAddress} (See on <a href="${config.googleMaps}">Google Maps</a>)`;
+            break;
           case 'StartTime':
-            return this.addChatItem(`We will be kicking off at ${config.startTime}`, true);
+            message = `We will be kicking off at ${config.startTime}`;
+            break;
           case 'EndTime':
-            return this.addChatItem(`We aim to finish about ${config.endTime}`, true);
+            message = `We aim to finish about ${config.endTime}`;
+            break;
           case 'Meetup':
-            return this.addChatItem(`You can find out more at ${config.url}`, true);
+            message = `You can find out more at ${config.url}`;
+            break;
+          case 'Bring':
+            message = `All you need to bring is a laptop and charger. If you have plans to use a specific platform (such as Telegram) then I recommend signing up to an account before the event.`;
+            break;
           default:
-            return this.addChatItem(`Sorry, I don't understand.`, true);
+            message = `Sorry, I don't understand.`;
+            break;
         }
+        setTimeout(() => {
+          this.botNotTyping();
+          return this.addChatItem(message, true);
+        }, 1500);
       });
   }
 }

@@ -46,10 +46,11 @@
 
 	var config = {
 	    date: 'Saturday 1st April',
-	    url: 'https://www.meetup.com/JSOxford/',
+	    url: "<a href=\"https://www.meetup.com/JSOxford/\">https://www.meetup.com/JSOxford/</a>",
 	    startTime: '9:30am',
 	    endTime: '5pm',
 	    location: 'The Story Museum in Oxford',
+	    googleMaps: 'https://goo.gl/maps/vjVy6N4rapt',
 	    fullAddress: 'The Story Museum, Rochester House, 42 Pembroke St, Oxford OX1 1BP',
 	    key: '1a6e39d4e6e846d1a8ad4b98ec332946',
 	    appId: '57195fd5-cae5-4810-a829-b42ff5d3f3db'
@@ -73,6 +74,8 @@
 	        this.container = document.querySelector('.chat-content');
 	        this.isScrolled = false;
 	        this.botIsTyping = document.querySelector('.bot-typing');
+	        this.botTyping = function () { return setTimeout(function () { _this.botIsTyping.classList.remove('hide'); }, 450); };
+	        this.botNotTyping = function () { return _this.botIsTyping.classList.add('hide'); };
 	        this.getUserMessage = function () { return _this.inputBox.value; };
 	        this.resetUserMessage = function () { _this.inputBox.value = ''; };
 	        this.hookUpEventHandler();
@@ -117,38 +120,51 @@
 	    };
 	    ChatBot.prototype.say = function () {
 	        var _this = this;
-	        this.botIsTyping.classList.add('hide');
+	        this.botNotTyping();
 	        var message = this.messages.shift();
 	        if (message) {
 	            this.addChatItem(message, true);
 	            setTimeout(function () { return _this.say(); }, 3500);
 	            if (this.messages.length) {
-	                setTimeout(function () {
-	                    _this.botIsTyping.classList.remove('hide');
-	                }, 450);
+	                this.botTyping();
 	            }
 	        }
 	    };
 	    ChatBot.prototype.respondTo = function (message) {
 	        var _this = this;
+	        this.botTyping();
 	        var url = this.apiURL(message);
 	        fetch(url)
 	            .then(function (res) { return res.json(); })
 	            .then(function (res) {
+	            var message;
 	            switch (res.topScoringIntent.intent) {
 	                case 'Greeting':
-	                    return _this.addChatItem("Hello.", true);
+	                    message = "Hello.";
+	                    break;
 	                case 'Location':
-	                    return _this.addChatItem("" + config.fullAddress, true);
+	                    message = config.fullAddress + " (See on <a href=\"" + config.googleMaps + "\">Google Maps</a>)";
+	                    break;
 	                case 'StartTime':
-	                    return _this.addChatItem("We will be kicking off at " + config.startTime, true);
+	                    message = "We will be kicking off at " + config.startTime;
+	                    break;
 	                case 'EndTime':
-	                    return _this.addChatItem("We aim to finish about " + config.endTime, true);
+	                    message = "We aim to finish about " + config.endTime;
+	                    break;
 	                case 'Meetup':
-	                    return _this.addChatItem("You can find out more at " + config.url, true);
+	                    message = "You can find out more at " + config.url;
+	                    break;
+	                case 'Bring':
+	                    message = "All you need to bring is a laptop and charger. If you have plans to use a specific platform (such as Telegram) then I recommend signing up to an account before the event.";
+	                    break;
 	                default:
-	                    return _this.addChatItem("Sorry, I don't understand.", true);
+	                    message = "Sorry, I don't understand.";
+	                    break;
 	            }
+	            setTimeout(function () {
+	                _this.botNotTyping();
+	                return _this.addChatItem(message, true);
+	            }, 1500);
 	        });
 	    };
 	    return ChatBot;
