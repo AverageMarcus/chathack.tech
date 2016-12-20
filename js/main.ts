@@ -5,12 +5,12 @@ const config: any = {
   endTime: '5pm',
   location: 'The Story Museum in Oxford',
   fullAddress: 'The Story Museum, Rochester House, 42 Pembroke St, Oxford OX1 1BP',
-  apiKey: 'bba70764af4f47808ab21666ad50d0df',
+  key: '1a6e39d4e6e846d1a8ad4b98ec332946',
   appId: '57195fd5-cae5-4810-a829-b42ff5d3f3db'
 };
 
 class ChatBot {
-  private apiURL: Function = (query) => `https://api.projectoxford.ai/luis/v2.0/apps/${config.appId}?subscription-key=${config.apiKey}&q=${query}`
+  private apiURL: Function = (query) => `https://api.projectoxford.ai/luis/v2.0/apps/${config.appId}?subscription-key=${config.key}&q=${query}`
 
   private messages: string[] = [
     `Hello! 👋`,
