@@ -20,7 +20,8 @@ class ChatBot {
     `You will have the chance to learn and build chat bots for many platforms such as Facebook Messenger, Telegram and Slack.`,
     `We will have people available to help and the day is targeted at all experience levels from beginner to chat bot master.`,
     `The day will start at ${config.startTime} and end around ${config.endTime}`,
-    `More information can be found at ${config.url} or you can ask me questions and I'll try my best to answer.`
+    `More information can be found at ${config.url} or you can ask me questions and I'll try my best to answer.`,
+    `Please make sure you register on the event page to ensure a spot - ${config.url}`
     ];
 
   private form: HTMLFormElement = <HTMLFormElement>document.querySelector('.message-form');
